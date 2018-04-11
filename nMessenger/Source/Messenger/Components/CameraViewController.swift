@@ -106,6 +106,10 @@ open class CameraViewController: UIImagePickerController, UIImagePickerControlle
         //check if the camera is available
         if ((UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)) && (cameraAuthStatus == AVAuthorizationStatus.authorized)){
             self.sourceType = UIImagePickerControllerSourceType.camera
+            
+            if !(self is UIImagePickerController) {
+                return
+            }
             self.showsCameraControls = false
             self.selection = SelectionType.camera
             self.renderCameraElements()
@@ -274,11 +278,13 @@ open class CameraViewController: UIImagePickerController, UIImagePickerControlle
             }
             //myImage = info[UIImagePickerControllerOriginalImage] as? UIImage
             /* Correctly flip the mirrored image of front-facing camera */
+            /*
             if self.cameraDevice == UIImagePickerControllerCameraDevice.front {
                 if let im = myImage, let cgImage = im.cgImage {
                     myImage = UIImage(cgImage: cgImage, scale: im.scale, orientation: UIImageOrientation.leftMirrored)
                 }
             }
+             */
         }
         cameraDelegate?.pickedImage(myImage)
     }
@@ -371,6 +377,7 @@ open class CameraViewController: UIImagePickerController, UIImagePickerControlle
      Enables/disables flash
      */
     fileprivate func setFlash(_ sender: UIButton) {
+        return
         if (sender.isSelected == true) {
             self.cameraFlashMode = UIImagePickerControllerCameraFlashMode.on
         } else {
@@ -394,6 +401,8 @@ open class CameraViewController: UIImagePickerController, UIImagePickerControlle
      Changes the camera from front to back
      */
     fileprivate func orientCamera(_ sender:UIButton) {
+        return
+
         if (sender.isSelected == true) {
             self.cameraDevice = UIImagePickerControllerCameraDevice.front
         } else {
