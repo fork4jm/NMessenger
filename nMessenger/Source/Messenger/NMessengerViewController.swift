@@ -360,7 +360,12 @@ open class NMessengerViewController: UIViewController, UITextViewDelegate, NMess
         newMessage.cellPadding = messagePadding
         newMessage.currentViewController = self
         newMessage.isIncomingMessage = isIncomingMessage
+        let nAvatar = ASImageNode()
+        nAvatar.image = UIImage.init(named: "shutterBtn.png")
+        newMessage.avatarNode = nAvatar
         
+        newMessage.avatarInsets = isIncomingMessage ? UIEdgeInsetsMake(0, 0, 0, 10) : UIEdgeInsetsMake(0, 10, 0, 0)
+
         return newMessage
     }
     

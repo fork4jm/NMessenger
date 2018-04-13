@@ -122,7 +122,7 @@ open class TextContentNode: ContentNode,ASTextNodeDelegate {
         let outputString = NSMutableAttributedString(string: textMessageString, attributes: fontAndSizeAndTextColor )
         let types: NSTextCheckingResult.CheckingType = [.link, .phoneNumber]
         let detector = try! NSDataDetector(types: types.rawValue)
-        let matches = detector.matches(in: textMessageString, options: [], range: NSMakeRange(0, textMessageString.characters.count))
+        let matches = detector.matches(in: textMessageString, options: [], range: NSMakeRange(0, textMessageString.count))
         for match in matches {
             if let url = match.url
             {

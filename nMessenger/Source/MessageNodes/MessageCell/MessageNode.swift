@@ -150,21 +150,22 @@ open class MessageNode: GeneralMessengerCell {
         let justifyLocation = isIncomingMessage ? ASStackLayoutJustifyContent.start : ASStackLayoutJustifyContent.end
         
         if let tmpAvatar = self.avatarNode {
-            let tmpSizeMeasure = tmpAvatar.layoutThatFits(ASSizeRange(min: CGSize.zero, max: constrainedSize.max))
-            
+//            let tmpSizeMeasure = tmpAvatar.layoutThatFits(ASSizeRange(min: CGSize.zero, max: constrainedSize.max))
+            tmpAvatar.backgroundColor = .blue
             let avatarSizeLayout = ASAbsoluteLayoutSpec()
             avatarSizeLayout.sizing = .sizeToFit
             avatarSizeLayout.children = [tmpAvatar]
             
-            self.avatarButtonNode.style.width = ASDimension(unit: .points, value: tmpSizeMeasure.size.width)
-            self.avatarButtonNode.style.height = ASDimension(unit: .points, value: tmpSizeMeasure.size.height)
+            self.avatarButtonNode.style.width = ASDimension(unit: .points, value: 50)
+            self.avatarButtonNode.style.height = ASDimension(unit: .points, value: 50)
+            self.avatarButtonNode.backgroundColor = .red
             
             let avatarButtonSizeLayout = ASAbsoluteLayoutSpec()
             avatarButtonSizeLayout.sizing = .sizeToFit
             avatarButtonSizeLayout.children = [self.avatarButtonNode]
             let avatarBackStack = ASBackgroundLayoutSpec(child: avatarButtonSizeLayout, background: avatarSizeLayout)
             
-            let width = constrainedSize.max.width - tmpSizeMeasure.size.width - self.cellPadding.left - self.cellPadding.right - avatarInsets.left - avatarInsets.right - self.messageOffset
+            let width = constrainedSize.max.width - 50 - self.cellPadding.left - self.cellPadding.right - avatarInsets.left - avatarInsets.right - self.messageOffset
 
             contentNode?.style.maxWidth = ASDimension(unit: .points, value: width * self.maxWidthRatio)
             contentNode?.style.maxHeight = ASDimension(unit: .points, value: self.maxHeight)
@@ -175,9 +176,9 @@ open class MessageNode: GeneralMessengerCell {
             
             let ins = ASInsetLayoutSpec(insets: self.avatarInsets, child: avatarBackStack)
             
-            let cellOrientation = isIncomingMessage ? [ins, contentSizeLayout] : [contentSizeLayout,ins]
+            let cellOrientation =  isIncomingMessage ? [ins, contentSizeLayout] : [contentSizeLayout,ins]
             
-            layoutSpecs = ASStackLayoutSpec(direction: .horizontal, spacing: 0, justifyContent: justifyLocation, alignItems: .end, children: cellOrientation)
+            layoutSpecs = ASStackLayoutSpec(direction: .horizontal, spacing: 0, justifyContent: justifyLocation, alignItems: .start, children: cellOrientation)
             contentSizeLayout.style.flexShrink = 1
         } else {
             let width = constrainedSize.max.width - self.cellPadding.left - self.cellPadding.right - self.messageOffset

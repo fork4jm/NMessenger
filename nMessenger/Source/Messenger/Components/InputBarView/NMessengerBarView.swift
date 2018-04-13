@@ -147,7 +147,7 @@ open class NMessengerBarView: InputBarView, UITextViewDelegate, GalleryControlle
             if textView == self.textInputView {
                 textInputViewHeight.constant = textInputViewHeightConst
                 textInputAreaViewHeight.constant = textInputViewHeightConst+10
-                _ = self.controller.sendText(self.textInputView.text,isIncomingMessage: false)
+                _ = self.controller.sendText(self.textInputView.text,isIncomingMessage: (arc4random_uniform(2) == 0))
                 self.textInputView.text = ""
                 return false
             }
@@ -207,7 +207,7 @@ open class NMessengerBarView: InputBarView, UITextViewDelegate, GalleryControlle
         textInputAreaViewHeight.constant = textInputViewHeightConst+10
         if self.textInputView.text != ""
         {
-            _ = self.controller.sendText(self.textInputView.text,isIncomingMessage: false)
+            _ = self.controller.sendText(self.textInputView.text,isIncomingMessage: (arc4random_uniform(2) == 0))
             self.textInputView.text = ""
         }
     }
@@ -227,7 +227,7 @@ open class NMessengerBarView: InputBarView, UITextViewDelegate, GalleryControlle
         self.cameraVC.dismiss(animated: true, completion: nil)
         
         for image in images {
-            _ = self.controller.sendImage(image,isIncomingMessage: false)
+            _ = self.controller.sendImage(image,isIncomingMessage: (arc4random_uniform(2) == 0))
         }
     }
     
@@ -235,7 +235,7 @@ open class NMessengerBarView: InputBarView, UITextViewDelegate, GalleryControlle
         self.cameraVC.dismiss(animated: true, completion: nil)
         
         for image in images {
-            _ = self.controller.sendImage(image,isIncomingMessage: false)
+            _ = self.controller.sendImage(image,isIncomingMessage: (arc4random_uniform(2) == 0))
         }
     }
     
@@ -247,7 +247,7 @@ open class NMessengerBarView: InputBarView, UITextViewDelegate, GalleryControlle
         self.cameraVC.dismiss(animated: true, completion: nil)
         
         for image in images {
-            _ = self.controller.sendImage(image.uiImage(ofSize: CGSize.init(width: 50, height: 50))!,isIncomingMessage: false)
+            _ = self.controller.sendImage(image.uiImage(ofSize: CGSize.init(width: 50, height: 50))!,isIncomingMessage: (arc4random_uniform(2) == 0))
         }
     }
     
@@ -259,7 +259,7 @@ open class NMessengerBarView: InputBarView, UITextViewDelegate, GalleryControlle
         self.cameraVC.dismiss(animated: true, completion: nil)
         
         for image in images {
-            _ = self.controller.sendImage(image.uiImage(ofSize: CGSize.init(width: 50, height: 50))!,isIncomingMessage: false)
+            _ = self.controller.sendImage(image.uiImage(ofSize: CGSize.init(width: 50, height: 50))!,isIncomingMessage: (arc4random_uniform(2) == 0))
         }
     }
     
