@@ -136,4 +136,5 @@ NMessenger is a fast, lightweight messenger component built on AsyncDisplaykit a
   s.dependency "Texture", "2.3.2"
   s.dependency 'ImagePicker'
   s.dependency 'Gallery'
+  
 end
