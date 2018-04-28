@@ -213,6 +213,8 @@ open class NMessengerBarView: InputBarView, UITextViewDelegate, CameraViewDelega
      Open camera and/or photo library to take/select a photo
      */
     @IBAction open func plusClicked(_ sender: AnyObject?) {
+        self.controller.plusClicked(sender)
+        /*
         let authStatus = cameraVC.cameraAuthStatus
         let photoLibAuthStatus = cameraVC.photoLibAuthStatus
         if(authStatus != AVAuthorizationStatus.authorized) {
@@ -259,6 +261,7 @@ open class NMessengerBarView: InputBarView, UITextViewDelegate, CameraViewDelega
                 self.controller.present(self.cameraVC, animated: true, completion: nil)
             })
         }
+ */
     }
     
     

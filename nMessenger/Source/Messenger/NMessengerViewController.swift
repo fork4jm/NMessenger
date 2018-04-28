@@ -93,6 +93,10 @@ open class NMessengerViewController: UIViewController, UITextViewDelegate, NMess
         self.removeObservers()
     }
     
+    open func plusClicked(_ sender: AnyObject?) {
+    
+    }
+    
     // MARK: Initialisers helper methods
     /**
      Adds observer for UIKeyboardWillChangeFrameNotification
