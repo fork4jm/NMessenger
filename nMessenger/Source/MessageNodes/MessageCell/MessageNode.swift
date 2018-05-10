@@ -32,7 +32,15 @@ open class MessageNode: GeneralMessengerCell {
         didSet {
             self.setNeedsLayout()
         }
-
+        
+    }
+    
+    /** ASDisplayNode as the status of the cell*/
+    open var statusNode: ASDisplayNode? {
+        didSet {
+            self.setNeedsLayout()
+        }
+        
     }
     
     /** ASDisplayNode as the header of the cell*/
@@ -53,6 +61,12 @@ open class MessageNode: GeneralMessengerCell {
      Spacing around the avatar. Defaults to UIEdgeInsetsMake(0, 0, 0, 10)
      */
     open var avatarInsets: UIEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10) {
+        didSet {
+            self.setNeedsLayout()
+        }
+    }
+    
+    open var statusInsets: UIEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10) {
         didSet {
             self.setNeedsLayout()
         }
@@ -93,7 +107,7 @@ open class MessageNode: GeneralMessengerCell {
             self.setNeedsLayout()
         }
     }
-
+    
     /** Bool if the cell is an incoming or out going message cell*/
     open override var isIncomingMessage:Bool {
         didSet {
@@ -104,6 +118,8 @@ open class MessageNode: GeneralMessengerCell {
     // MARK: Private Variables
     /** Button node to handle avatar click*/
     fileprivate var avatarButtonNode: ASControlNode = ASControlNode()
+    
+    fileprivate var statusButtonNode: ASControlNode = ASControlNode()
     
     // MARK: Initializers
     
@@ -119,10 +135,10 @@ open class MessageNode: GeneralMessengerCell {
     // MARK: Initializer helper method
     
     /**
-    Creates background node and avatar node if they do not exist
+     Creates background node and avatar node if they do not exist
      */
     fileprivate func setupMessageNode(withContent content: ContentNode)
-    {   
+    {
         self.avatarButtonNode.addTarget(self, action:  #selector(MessageNode.avatarClicked), forControlEvents: .touchUpInside)
         self.avatarButtonNode.isExclusiveTouch = true
         
@@ -165,7 +181,7 @@ open class MessageNode: GeneralMessengerCell {
             let avatarBackStack = ASBackgroundLayoutSpec(child: avatarButtonSizeLayout, background: avatarSizeLayout)
             
             let width = constrainedSize.max.width - tmpSizeMeasure.size.width - self.cellPadding.left - self.cellPadding.right - avatarInsets.left - avatarInsets.right - self.messageOffset
-
+            
             contentNode?.style.maxWidth = ASDimension(unit: .points, value: width * self.maxWidthRatio)
             contentNode?.style.maxHeight = ASDimension(unit: .points, value: self.maxHeight)
             
@@ -175,7 +191,28 @@ open class MessageNode: GeneralMessengerCell {
             
             let ins = ASInsetLayoutSpec(insets: self.avatarInsets, child: avatarBackStack)
             
-            let cellOrientation = isIncomingMessage ? [ins, contentSizeLayout] : [contentSizeLayout,ins]
+            var cellOrientation = isIncomingMessage ? [ins, contentSizeLayout] : [contentSizeLayout,ins]
+            
+            if let statusNode = self.statusNode
+            {
+                
+                let tmpSizeMeasure = statusNode.layoutThatFits(ASSizeRange(min: CGSize.zero, max: constrainedSize.max))
+                
+                let statusSizeLayout = ASAbsoluteLayoutSpec()
+                statusSizeLayout.sizing = .sizeToFit
+                statusSizeLayout.children = [statusNode]
+                
+                self.statusButtonNode.style.width = ASDimension(unit: .points, value: tmpSizeMeasure.size.width)
+                self.statusButtonNode.style.height = ASDimension(unit: .points, value: tmpSizeMeasure.size.height)
+                
+                let statusButtonSizeLayout = ASAbsoluteLayoutSpec()
+                statusButtonSizeLayout.sizing = .sizeToFit
+                statusButtonSizeLayout.children = [self.statusButtonNode]
+                let statusBackStack = ASBackgroundLayoutSpec(child: statusButtonSizeLayout, background: statusSizeLayout)
+                let statusIns = ASInsetLayoutSpec(insets: self.statusInsets, child: statusBackStack)
+                
+                cellOrientation = isIncomingMessage ? [ins, contentSizeLayout] : [contentSizeLayout,ins, statusIns]
+            }
             
             layoutSpecs = ASStackLayoutSpec(direction: .horizontal, spacing: 0, justifyContent: justifyLocation, alignItems: .end, children: cellOrientation)
             contentSizeLayout.style.flexShrink = 1
@@ -184,9 +221,11 @@ open class MessageNode: GeneralMessengerCell {
             
             contentNode?.style.maxWidth = ASDimension(unit: .points, value: width * self.maxWidthRatio)
             contentNode?.style.maxHeight = ASDimension(unit: .points, value: self.maxHeight)
-        
+            
             contentNode?.style.flexGrow = 1
-        
+            
+            contentNode?.backgroundColor = .clear
+            
             let contentSizeLayout = ASAbsoluteLayoutSpec()
             contentSizeLayout.sizing = .sizeToFit
             contentSizeLayout.children = [self.contentNode!]
@@ -204,9 +243,35 @@ open class MessageNode: GeneralMessengerCell {
             layoutSpecs = ASStackLayoutSpec(direction: .vertical, spacing: self.footerSpacing, justifyContent: .start, alignItems: isIncomingMessage ? .start : .end, children: [layoutSpecs, footerNode])
         }
         
-        let cellOrientation = isIncomingMessage ? [createSpacer(), layoutSpecs!] : [layoutSpecs!, createSpacer()]
-        let layoutSpecs2 = ASStackLayoutSpec(direction: .horizontal, spacing: self.messageOffset, justifyContent: justifyLocation, alignItems: .end, children: cellOrientation)
-        return ASInsetLayoutSpec(insets: self.cellPadding, child: layoutSpecs2)
+        if let statusNode = self.statusNode
+        {
+            let tmpSizeMeasure = statusNode.layoutThatFits(ASSizeRange(min: CGSize.zero, max: constrainedSize.max))
+            
+            let statusSizeLayout = ASAbsoluteLayoutSpec()
+            statusSizeLayout.sizing = .sizeToFit
+            statusSizeLayout.children = [statusNode]
+            
+            self.statusButtonNode.style.width = ASDimension(unit: .points, value: tmpSizeMeasure.size.width)
+            self.statusButtonNode.style.height = ASDimension(unit: .points, value: tmpSizeMeasure.size.height)
+            
+            let statusButtonSizeLayout = ASAbsoluteLayoutSpec()
+            statusButtonSizeLayout.sizing = .sizeToFit
+            statusButtonSizeLayout.children = [self.statusButtonNode]
+            let statusBackStack = ASBackgroundLayoutSpec(child: statusButtonSizeLayout, background: statusSizeLayout)
+            let statusIns = ASInsetLayoutSpec(insets: self.avatarInsets, child: statusBackStack)
+            
+            let cellOrientation = isIncomingMessage ? [createSpacer(), layoutSpecs!] : [statusIns,layoutSpecs!, createSpacer()]
+            
+            let layoutSpecs2 = ASStackLayoutSpec(direction: .horizontal, spacing: self.messageOffset, justifyContent: justifyLocation, alignItems: .end, children: cellOrientation)
+            return ASInsetLayoutSpec(insets: self.cellPadding, child: layoutSpecs2)
+            
+        } else {
+            let cellOrientation = isIncomingMessage ? [createSpacer(), layoutSpecs!] : [layoutSpecs!, createSpacer()]
+            
+            let layoutSpecs2 = ASStackLayoutSpec(direction: .horizontal, spacing: self.messageOffset, justifyContent: justifyLocation, alignItems: .end, children: cellOrientation)
+            return ASInsetLayoutSpec(insets: self.cellPadding, child: layoutSpecs2)
+        }
+        
     }
     
     
@@ -282,3 +347,4 @@ extension MessageNode {
         self.delegate?.avatarClicked?(self)
     }
 }
+
