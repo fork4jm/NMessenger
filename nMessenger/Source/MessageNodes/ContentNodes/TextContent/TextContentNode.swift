@@ -177,7 +177,7 @@ open class TextContentNode: ContentNode,ASTextNodeDelegate {
     /**
      Implementing shouldHighlightLinkAttribute - returning true for both link and phone numbers
      */
-    
+    /*
     public func textNode(_ textNode: ASTextNode, shouldHighlightLinkAttribute attribute: String, value: Any, at point: CGPoint) -> Bool {
         if attribute == "LinkAttribute"
         {
@@ -190,6 +190,7 @@ open class TextContentNode: ContentNode,ASTextNodeDelegate {
         return false
 
     }
+ */
     
     /*open func textNode(_ textNode: ASTextNode, shouldHighlightLinkAttribute attribute: String, value: AnyObject, at point: CGPoint) -> Bool {
         if attribute == "LinkAttribute"
@@ -257,6 +258,7 @@ open class TextContentNode: ContentNode,ASTextNodeDelegate {
      Implementing longPressedLinkAttribute - handles long tap event on links and phone numbers
      */
     //open func textNode(_ textNode: ASTextNode, longPressedLinkAttribute attribute: String, value: AnyObject, at point: CGPoint, textRange: NSRange) {
+    /*
     public func textNode(_ textNode: ASTextNode, longPressedLinkAttribute attribute: String, value: Any, at point: CGPoint, textRange: NSRange) {
         if attribute == "LinkAttribute"
         {
@@ -378,6 +380,7 @@ open class TextContentNode: ContentNode,ASTextNodeDelegate {
             }
         }
     }
+ */
     
     // MARK: UILongPressGestureRecognizer Selector Methods
     
