@@ -142,6 +142,9 @@ open class MessageNode: GeneralMessengerCell {
         self.avatarButtonNode.addTarget(self, action:  #selector(MessageNode.avatarClicked), forControlEvents: .touchUpInside)
         self.avatarButtonNode.isExclusiveTouch = true
         
+        self.statusButtonNode.addTarget(self, action:  #selector(MessageNode.statusClicked), forControlEvents: .touchUpInside)
+        self.statusButtonNode.isExclusiveTouch = true
+        
         self.contentNode = content
         self.automaticallyManagesSubnodes = true
     }
@@ -223,8 +226,6 @@ open class MessageNode: GeneralMessengerCell {
             contentNode?.style.maxHeight = ASDimension(unit: .points, value: self.maxHeight)
             
             contentNode?.style.flexGrow = 1
-            
-            contentNode?.backgroundColor = .clear
             
             let contentSizeLayout = ASAbsoluteLayoutSpec()
             contentSizeLayout.sizing = .sizeToFit
@@ -346,5 +347,11 @@ extension MessageNode {
     {
         self.delegate?.avatarClicked?(self)
     }
+    
+    @objc public func statusClicked()
+    {
+        self.delegate?.statusClicked?(self)
+    }
+    
 }
 
