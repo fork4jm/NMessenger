@@ -120,7 +120,7 @@ open class ContentNode: ASDisplayNode {
                 guard let bubble = instance.backgroundBubble else {
                     return
                 }
-                self.layoutLayers(with: bubble, isIncomingMessage: instance.isIncomingMessage)
+                self.layoutLayers(with: bubble, isIncomingMessage: !instance.isIncomingMessage)
             }
         }
     }

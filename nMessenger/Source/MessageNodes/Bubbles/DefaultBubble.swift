@@ -63,12 +63,13 @@ open class DefaultBubble: Bubble {
         }
         
         path = CGMutablePath()
-    
+        
         path.addArc(center: CGPoint(x: rect.maxX, y: rect.minY), radius: radius2, startAngle: CGFloat(-Double.pi/2), endAngle: 0, clockwise: false)
         path.addLine(to: CGPoint(x: rect.maxX + radius2, y: rect.maxY + radius2))
         path.addArc(center: CGPoint(x: rect.minX, y: rect.maxY), radius: radius2, startAngle: CGFloat(Double.pi/2), endAngle: CGFloat(Double.pi), clockwise: false)
-        path.addArc(center: CGPoint(x: rect.minX, y: rect.minY), radius: radius2, startAngle: CGFloat(Double.pi), endAngle: CGFloat(-Double.pi/2), clockwise: false)
-    
+        
+        path.addLine(to: CGPoint(x: rect.minX - radius2, y: rect.minY - radius2))
+        
         //CGPathAddArc(path, nil, rect.maxX, rect.minY, radius2, CGFloat(-M_PI_2), 0, false)
         //CGPathAddLineToPoint(path, nil, rect.maxX + radius2, rect.maxY + radius2)
         //CGPathAddArc(path, nil, rect.minX, rect.maxY, radius2, CGFloat(M_PI_2), CGFloat(M_PI), false)
