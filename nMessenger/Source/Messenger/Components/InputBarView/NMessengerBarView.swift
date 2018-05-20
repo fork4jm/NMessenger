@@ -35,7 +35,7 @@ open class NMessengerBarView: InputBarView, UITextViewDelegate, CameraViewDelega
     //CGFloat to the fine the number of rows a user can type
     open var numberOfRows:CGFloat = 3
     //String as placeholder text in input view
-    open var inputTextViewPlaceholder: String = "NMessenger"
+    open var inputTextViewPlaceholder: String = "请输入..."
     {
         willSet(newVal)
         {
@@ -92,6 +92,8 @@ open class NMessengerBarView: InputBarView, UITextViewDelegate, CameraViewDelega
         self.addSubview(inputBarView)
         inputBarView.frame = self.bounds
         textInputView.delegate = self
+        textInputView.returnKeyType = .send
+        textInputView.enablesReturnKeyAutomatically = true
         self.sendButton.isEnabled = false
         cameraVC.cameraDelegate = self
 
