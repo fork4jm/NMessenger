@@ -148,7 +148,7 @@ open class NMessengerBarView: InputBarView, UITextViewDelegate, CameraViewDelega
                 textInputViewHeight.constant = textInputViewHeightConst
                 textInputAreaViewHeight.constant = textInputViewHeightConst+10
                 _ = self.controller.sendText(self.textInputView.text,isIncomingMessage: false)
-//                self.textInputView.text = ""
+                self.textInputView.text = ""
                 return false
             }
         }
