@@ -39,7 +39,7 @@ open class NMessengerBarView: InputBarView, UITextViewDelegate, CameraViewDelega
     {
         willSet(newVal)
         {
-            self.textInputView.text = newVal
+//            self.textInputView.text = newVal
         }
     }
     
