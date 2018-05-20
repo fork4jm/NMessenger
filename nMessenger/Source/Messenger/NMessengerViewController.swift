@@ -47,7 +47,7 @@ open class NMessengerViewController: UIViewController, UITextViewDelegate, NMess
     //Bool to indicate if the keyboard is open
     open fileprivate(set) var isKeyboardIsShown : Bool = false
     //NSLayoutConstraint for the input bar spacing from the bottom
-    fileprivate var inputBarBottomSpacing:NSLayoutConstraint = NSLayoutConstraint()
+    open var inputBarBottomSpacing:NSLayoutConstraint = NSLayoutConstraint()
     //MARK: Public Variables
     //UIEdgeInsets for padding for each message
     open var messagePadding: UIEdgeInsets = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
