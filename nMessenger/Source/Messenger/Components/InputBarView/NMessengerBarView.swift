@@ -94,7 +94,7 @@ open class NMessengerBarView: InputBarView, UITextViewDelegate, CameraViewDelega
         textInputView.delegate = self
         textInputView.returnKeyType = .send
         textInputView.enablesReturnKeyAutomatically = true
-        self.sendButton.isEnabled = false
+//        self.sendButton.isEnabled = false
         cameraVC.cameraDelegate = self
 
     }
@@ -107,9 +107,9 @@ open class NMessengerBarView: InputBarView, UITextViewDelegate, CameraViewDelega
     open func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         textView.text = ""
         textView.textColor = UIColor.n1DarkestGreyColor()
-        UIView.animate(withDuration: 0.1, animations: {
-            self.sendButton.isEnabled = true
-        }) 
+//        UIView.animate(withDuration: 0.1, animations: {
+//            self.sendButton.isEnabled = true
+//        })
         DispatchQueue.main.async(execute: {
             textView.selectedRange = NSMakeRange(0, 0)
         });
@@ -123,8 +123,8 @@ open class NMessengerBarView: InputBarView, UITextViewDelegate, CameraViewDelega
             self.addInputSelectorPlaceholder()
         }
         UIView.animate(withDuration: 0.1, animations: {
-            self.sendButton.isEnabled = false
-        }) 
+//            self.sendButton.isEnabled = false
+        })
         self.textInputView.resignFirstResponder()
         return true
     }
@@ -136,9 +136,9 @@ open class NMessengerBarView: InputBarView, UITextViewDelegate, CameraViewDelega
     open func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if textView.text == "" && (text != "\n")
         {
-            UIView.animate(withDuration: 0.1, animations: {
-                self.sendButton.isEnabled = true
-            }) 
+//            UIView.animate(withDuration: 0.1, animations: {
+//                self.sendButton.isEnabled = true
+//            })
             return true
         }
         else if (text == "\n") && textView.text != ""{
