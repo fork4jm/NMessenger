@@ -105,14 +105,16 @@ open class NMessengerBarView: InputBarView, UITextViewDelegate, CameraViewDelega
      Implementing textViewShouldBeginEditing in order to set the text indictor at position 0
      */
     open func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        /*
         textView.text = ""
         textView.textColor = UIColor.n1DarkestGreyColor()
-//        UIView.animate(withDuration: 0.1, animations: {
-//            self.sendButton.isEnabled = true
-//        })
+        UIView.animate(withDuration: 0.1, animations: {
+            self.sendButton.isEnabled = true
+        })
         DispatchQueue.main.async(execute: {
             textView.selectedRange = NSMakeRange(0, 0)
         });
+         */
         return true
     }
     /**
