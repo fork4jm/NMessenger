@@ -194,28 +194,7 @@ open class MessageNode: GeneralMessengerCell {
             
             let ins = ASInsetLayoutSpec(insets: self.avatarInsets, child: avatarBackStack)
             
-            var cellOrientation = isIncomingMessage ? [ins, contentSizeLayout] : [contentSizeLayout,ins]
-            
-            if let statusNode = self.statusNode
-            {
-                
-                let tmpSizeMeasure = statusNode.layoutThatFits(ASSizeRange(min: CGSize.zero, max: constrainedSize.max))
-                
-                let statusSizeLayout = ASAbsoluteLayoutSpec()
-                statusSizeLayout.sizing = .sizeToFit
-                statusSizeLayout.children = [statusNode]
-                
-                self.statusButtonNode.style.width = ASDimension(unit: .points, value: tmpSizeMeasure.size.width)
-                self.statusButtonNode.style.height = ASDimension(unit: .points, value: tmpSizeMeasure.size.height)
-                
-                let statusButtonSizeLayout = ASAbsoluteLayoutSpec()
-                statusButtonSizeLayout.sizing = .sizeToFit
-                statusButtonSizeLayout.children = [self.statusButtonNode]
-                let statusBackStack = ASBackgroundLayoutSpec(child: statusButtonSizeLayout, background: statusSizeLayout)
-                let statusIns = ASInsetLayoutSpec(insets: self.statusInsets, child: statusBackStack)
-                
-                cellOrientation = isIncomingMessage ? [ins, contentSizeLayout] : [contentSizeLayout,ins, statusIns]
-            }
+            let cellOrientation = isIncomingMessage ? [ins, contentSizeLayout] : [contentSizeLayout,ins]
             
             layoutSpecs = ASStackLayoutSpec(direction: .horizontal, spacing: 0, justifyContent: justifyLocation, alignItems: .end, children: cellOrientation)
             contentSizeLayout.style.flexShrink = 1
