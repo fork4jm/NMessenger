@@ -177,4 +177,7 @@ open class ContentNode: ASDisplayNode {
     open func messageNodeLongPressSelector(_ recognizer: UITapGestureRecognizer) {
     }
     
+    open func messageNodeTapSelector(_ recognizer: UITapGestureRecognizer) {
+    }
+
 }

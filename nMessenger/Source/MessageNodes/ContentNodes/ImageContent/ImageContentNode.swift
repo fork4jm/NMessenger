@@ -11,12 +11,22 @@
 import UIKit
 import AsyncDisplayKit
 
+
+public protocol tapDelegate {
+    
+    func tap(image:UIImage) -> Void
+    
+}
+
 //MARK: ImageContentNode
 /**
  ImageContentNode for NMessenger. Extends ContentNode.
  Defines content that is an image.
  */
 open class ImageContentNode: ContentNode {
+    
+    
+    open var delegate: tapDelegate?
     
     // MARK: Public Variables
     /** UIImage as the image of the cell*/
@@ -109,6 +119,25 @@ open class ImageContentNode: ContentNode {
                     menuController.menuItems = [UIMenuItem(title: "Copy", action: #selector(ImageContentNode.copySelector))]
                     menuController.setTargetRect(self.imageMessageNode.frame, in: self.view)
                     menuController.setMenuVisible(true, animated:true)
+                })
+            }
+        }
+    }
+    
+    open override func messageNodeTapSelector(_ recognizer: UITapGestureRecognizer) {
+        if recognizer.state == UIGestureRecognizerState.began {
+            
+            let touchLocation = recognizer.location(in: view)
+            if self.imageMessageNode.frame.contains(touchLocation) {
+                
+                view.becomeFirstResponder()
+                
+                delay(0.1, closure: {
+                    if let delegate = self.delegate {
+                        if let image =  self.image {
+                            delegate.tap(image: image)
+                        }
+                    }
                 })
             }
         }
