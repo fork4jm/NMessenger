@@ -125,7 +125,7 @@ open class ImageContentNode: ContentNode {
     }
     
     open override func messageNodeTapSelector(_ recognizer: UITapGestureRecognizer) {
-        if recognizer.state == UIGestureRecognizerState.began {
+        if recognizer.state == UIGestureRecognizerState.recognized {
             
             let touchLocation = recognizer.location(in: view)
             if self.imageMessageNode.frame.contains(touchLocation) {
