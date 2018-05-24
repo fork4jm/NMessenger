@@ -50,7 +50,7 @@ open class NMessengerViewController: UIViewController, UITextViewDelegate, NMess
     open var inputBarBottomSpacing:NSLayoutConstraint = NSLayoutConstraint()
     //MARK: Public Variables
     //UIEdgeInsets for padding for each message
-    open var messagePadding: UIEdgeInsets = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
+    open var messagePadding: UIEdgeInsets = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
     /** A shared bubble configuration to use for new messages. Defaults to **SharedBubbleConfiguration***/
     open var sharedBubbleConfiguration: BubbleConfigurationProtocol = StandardBubbleConfiguration()
     
