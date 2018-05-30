@@ -19,6 +19,8 @@ import AsyncDisplayKit
     @objc optional func batchFetchContent()
     /** Returns a newly created loading Indicator that should be used at the top of the messenger */
     @objc optional func batchFetchLoadingIndicator()->GeneralMessengerCell
+    
+    @objc optional func tapGestureRecognized() -> Void
 }
 
 //MARK: NMessengerSemaphore
@@ -126,6 +128,15 @@ open class NMessenger: UIView {
         //update frame
         messengerNode.frame = self.bounds
         messengerNode.view.separatorStyle = UITableViewCellSeparatorStyle.none
+        
+        let tap = UITapGestureRecognizer.init(target: self, action: #selector(NMessenger.tapGestureRecognized))
+        messengerNode.view.addGestureRecognizer(tap)
+    }
+    
+    @objc func tapGestureRecognized() -> Void {
+        if let handler = self.delegate?.tapGestureRecognized {
+            handler()
+        }
     }
     
     //MARK: Adding messages
