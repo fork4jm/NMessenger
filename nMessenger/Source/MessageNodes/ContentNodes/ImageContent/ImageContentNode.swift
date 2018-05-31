@@ -11,10 +11,10 @@
 import UIKit
 import AsyncDisplayKit
 
-
 public protocol tapDelegate {
     
-    func tap(image:UIImage) -> Void
+    func tap(image:UIImage?) -> Void
+    func tapOutside() -> Void
     
 }
 
@@ -24,7 +24,6 @@ public protocol tapDelegate {
  Defines content that is an image.
  */
 open class ImageContentNode: ContentNode {
-    
     
     open var delegate: tapDelegate?
     
@@ -77,7 +76,6 @@ open class ImageContentNode: ContentNode {
         self.addSubnode(imageMessageNode)
     }
     
-    
     // MARK: Override AsycDisaplyKit Methods
     
     /**
@@ -85,9 +83,23 @@ open class ImageContentNode: ContentNode {
      */
     override open func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         
-        let width = constrainedSize.max.width
-        self.imageMessageNode.style.width = ASDimension(unit: .points, value: width)
-        self.imageMessageNode.style.height = ASDimension(unit: .points, value: width/4*3)
+        let maxLength = constrainedSize.max.width / 2 * 1.5
+        
+        var widthValue = maxLength
+        var heightValue = maxLength
+        
+        if let image = self.imageMessageNode.image {
+            if image.size.width > image.size.height {
+                widthValue = maxLength
+                heightValue = maxLength / image.size.width * image.size.height
+            } else {
+                heightValue = maxLength
+                widthValue = maxLength / image.size.height * image.size.width
+            }
+        }
+        
+        self.imageMessageNode.style.width = ASDimension(unit: .points, value: widthValue)
+        self.imageMessageNode.style.height = ASDimension(unit: .points, value: heightValue)
         let absLayout = ASAbsoluteLayoutSpec()
         absLayout.sizing = .sizeToFit
         absLayout.children = [self.imageMessageNode]
@@ -136,9 +148,14 @@ open class ImageContentNode: ContentNode {
                     if let delegate = self.delegate {
                         if let image =  self.image {
                             delegate.tap(image: image)
+                        } else {
+                            delegate.tap(image: nil)
                         }
                     }
                 })
+            } else {
+                print("tap outside")
+                delegate?.tapOutside()
             }
         }
     }
