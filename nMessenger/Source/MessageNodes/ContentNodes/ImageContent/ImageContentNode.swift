@@ -13,7 +13,7 @@ import AsyncDisplayKit
 
 public protocol tapDelegate {
     
-    func tap(image:UIImage?) -> Void
+    func tap(imageView:ASImageNode?) -> Void
     func tapOutside() -> Void
     
 }
@@ -146,11 +146,7 @@ open class ImageContentNode: ContentNode {
                 
                 delay(0.1, closure: {
                     if let delegate = self.delegate {
-                        if let image =  self.image {
-                            delegate.tap(image: image)
-                        } else {
-                            delegate.tap(image: nil)
-                        }
+                        delegate.tap(imageView: self.imageMessageNode)
                     }
                 })
             } else {
