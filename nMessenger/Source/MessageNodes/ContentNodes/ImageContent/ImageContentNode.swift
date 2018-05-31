@@ -11,7 +11,7 @@
 import UIKit
 import AsyncDisplayKit
 
-public protocol tapDelegate {
+public protocol tapDelegate : class {
     
     func tap(imageView:ASImageNode?) -> Void
     func tapOutside() -> Void
@@ -25,7 +25,7 @@ public protocol tapDelegate {
  */
 open class ImageContentNode: ContentNode {
     
-    open var delegate: tapDelegate?
+    open weak var delegate: tapDelegate?
     
     // MARK: Public Variables
     /** UIImage as the image of the cell*/

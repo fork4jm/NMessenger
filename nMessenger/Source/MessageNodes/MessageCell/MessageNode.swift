@@ -94,7 +94,7 @@ open class MessageNode: GeneralMessengerCell {
     }
     
     /** Message width in relation to the NMessenger container size. **Warning:** Raises a fatal error if this value is not within the range. Defaults to 2/3*/
-    open var maxWidthRatio: CGFloat = 2/3 {
+    open var maxWidthRatio: CGFloat = 3/4 {
         didSet {
             if self.maxWidthRatio > 1 || self.maxWidthRatio < 0 {fatalError("maxWidthRatio expects a value between 0 and 1!")}
             self.setNeedsLayout()
