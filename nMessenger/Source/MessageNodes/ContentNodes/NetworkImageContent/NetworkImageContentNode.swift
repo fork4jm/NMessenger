@@ -31,7 +31,10 @@ open class NetworkImageContentNode: ContentNode,ASNetworkImageNodeDelegate {
     // MARK: Private Variables
     /** ASNetworkImageNode as the content of the cell*/
     open fileprivate(set) var networkImageMessageNode:ASNetworkImageNode = ASNetworkImageNode()
-
+    
+    var imageWidth: CGFloat  = 1
+    
+    var imageHeight: CGFloat = 1
     
     // MARK: Initialisers
     /**
@@ -41,6 +44,13 @@ open class NetworkImageContentNode: ContentNode,ASNetworkImageNodeDelegate {
      */
     public init(imageURL: String, bubbleConfiguration: BubbleConfigurationProtocol? = nil) {
         super.init(bubbleConfiguration: bubbleConfiguration)
+        self.setupNetworkImageNode(imageURL)
+    }
+    
+    public init(imageURL: String, width:CGFloat, height:CGFloat, bubbleConfiguration: BubbleConfigurationProtocol? = nil) {
+        super.init(bubbleConfiguration: bubbleConfiguration)
+        self.imageWidth = width
+        self.imageHeight = height
         self.setupNetworkImageNode(imageURL)
     }
     
@@ -72,9 +82,22 @@ open class NetworkImageContentNode: ContentNode,ASNetworkImageNodeDelegate {
      */
     override open func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         
-        let width = constrainedSize.max.width
-        self.networkImageMessageNode.style.width = ASDimension(unit: .points, value: width)
-        self.networkImageMessageNode.style.height = ASDimension(unit: .points, value: width/4*3)
+        let maxLength = constrainedSize.max.width / 2 * 1.5
+        
+        var widthValue = maxLength
+        var heightValue = maxLength
+        
+        if imageWidth > imageHeight {
+            widthValue = maxLength
+            heightValue = maxLength / imageWidth * imageHeight
+        } else {
+            heightValue = maxLength
+            widthValue = maxLength / imageHeight * imageWidth
+        }
+        
+        self.networkImageMessageNode.style.width = ASDimension(unit: .points, value: widthValue)
+        self.networkImageMessageNode.style.height = ASDimension(unit: .points, value: heightValue)
+        
         let absLayoutSpec = ASAbsoluteLayoutSpec()
         absLayoutSpec.sizing = .sizeToFit
         absLayoutSpec.children = [self.networkImageMessageNode]
