@@ -16,8 +16,19 @@ import AsyncDisplayKit
  TextMessageNode class for N Messenger. Extends MessageNode.
  Defines content that is a text.
  */
+
+public protocol tapTextDelegate : class {
+    
+    func tap(textNode:ASTextNode?) -> Void
+    
+    func tapOutside() -> Void
+
+}
+
 open class TextContentNode: ContentNode,ASTextNodeDelegate {
 
+    open weak var delegate: tapTextDelegate?
+    
     // MARK: Public Variables
     /** Insets for the node */
     open var insets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10) {
@@ -421,6 +432,27 @@ open class TextContentNode: ContentNode,ASTextNodeDelegate {
      */
     @objc open func copySelector() {
         UIPasteboard.general.string = self.textMessageNode.attributedText!.string
+    }
+    
+    
+    open override func messageNodeTapSelector(_ recognizer: UITapGestureRecognizer) {
+        if recognizer.state == UIGestureRecognizerState.recognized {
+            
+            let touchLocation = recognizer.location(in: view)
+            if self.textMessageNode.frame.contains(touchLocation) {
+                
+                view.becomeFirstResponder()
+                
+                delay(0.1, closure: {
+                    if let delegate = self.delegate {
+                        delegate.tap(textNode: self.textMessageNode)
+                    }
+                })
+            } else {
+                print("tap outside")
+                delegate?.tapOutside()
+            }
+        }
     }
     
 }

@@ -14,6 +14,7 @@ import AsyncDisplayKit
 public protocol tapDelegate : class {
     
     func tap(imageView:ASImageNode?) -> Void
+    
     func tapOutside() -> Void
     
 }
@@ -126,12 +127,14 @@ open class ImageContentNode: ContentNode {
                 
                 view.becomeFirstResponder()
                 
+                /*
                 delay(0.1, closure: {
                     let menuController = UIMenuController.shared
                     menuController.menuItems = [UIMenuItem(title: "Copy", action: #selector(ImageContentNode.copySelector))]
                     menuController.setTargetRect(self.imageMessageNode.frame, in: self.view)
                     menuController.setMenuVisible(true, animated:true)
                 })
+                 */
             }
         }
     }
