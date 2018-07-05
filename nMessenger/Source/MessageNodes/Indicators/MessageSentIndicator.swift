@@ -15,6 +15,41 @@ import UIKit
 /**
  Spinning loading indicator class. Used by the NMessenger prefetch.
  */
+
+public class ASCustomTextNode: ASControlNode {
+    
+    let titleNode: ASTextNode!
+    var insets: UIEdgeInsets!
+    
+    override init() {
+        titleNode = ASTextNode()
+        titleNode.isLayerBacked = true
+        
+        insets =  UIEdgeInsetsMake(5, 5, 5, 5)
+        
+        super.init()
+        
+        addSubnode(titleNode)
+    }
+    
+    override open func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
+        return ASStackLayoutSpec(
+            direction: .horizontal,
+            spacing: 0,
+            justifyContent: .center,
+            alignItems: .center,
+            children: [
+                ASInsetLayoutSpec(
+                    insets: insets,
+                    child: titleNode
+                )
+            ]
+        )
+    }
+    
+}
+
+
 open class MessageSentIndicator: GeneralMessengerCell {
     /** Horizontal spacing between text and spinner. Defaults to 20.*/
     open var contentPadding:CGFloat = 20 {
@@ -23,19 +58,19 @@ open class MessageSentIndicator: GeneralMessengerCell {
         }
     }
     /** Loading text node*/
-    open let text = ASTextNode()
+    open let text = ASCustomTextNode()
     /** Sets the loading attributed text for the spinner. Defaults to *"Loading..."* */
     open var messageSentAttributedText:NSAttributedString? {
         set {
-            text.attributedText = newValue
+            text.titleNode.attributedText = newValue
             self.setNeedsLayout()
         } get {
-            return text.attributedText
+            return text.titleNode.attributedText
         }
     }
     open var messageSentText: String? {
         set {
-            text.attributedText = NSAttributedString(
+            text.titleNode.attributedText = NSAttributedString(
                 string: newValue != nil ? newValue! : "",
                 attributes: [
                     NSAttributedStringKey.font: UIFont.systemFont(ofSize: 11),
@@ -44,13 +79,19 @@ open class MessageSentIndicator: GeneralMessengerCell {
                 ])
             self.setNeedsLayout()
         } get {
-            return text.attributedText?.string
+            return text.titleNode.attributedText?.string
         }
     }
     
+    var insets: UIEdgeInsets!
+    
     public override init() {
         super.init()
+
+        text.isLayerBacked = true
         addSubnode(text)
+        text.cornerRadius = 10.5
+        text.clipsToBounds = true
     }
     
     override open func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
@@ -59,7 +100,7 @@ open class MessageSentIndicator: GeneralMessengerCell {
             spacing: contentPadding,
             justifyContent: .center,
             alignItems: .center,
-            children: [ text ])
+            children: [text])
         let paddingLayout = ASInsetLayoutSpec(insets: cellPadding, child: stackLayout)
         return paddingLayout
     }
